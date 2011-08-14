@@ -20,6 +20,7 @@
         android:layout_height="fill_parent"
         android:gravity="center"
         android:background="#000040"
+        android:weightSum="1"
     >
         <LinearLayout
             android:orientation="horizontal"
@@ -46,6 +47,10 @@
                 android:text="Button"
                 android:id="@+id/flipbutton" />
         </LinearLayout>
+        <com.cibotechnology.KXNT.AudioVisualizer
+            android:id="@+id/audiovisualizer"
+            android:layout_width="200dp"
+            android:layout_height="200dp" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -60,7 +65,6 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Button"
-            android:id="@+id/donebutton"
-             />
+            android:id="@+id/donebutton" />
     </LinearLayout>
 </FrameLayout>

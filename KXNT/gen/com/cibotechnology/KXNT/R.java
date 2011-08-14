@@ -21,9 +21,10 @@ public final class R {
         public static final int selector_play=0x7f020007;
     }
     public static final class id {
-        public static final int backface=0x7f040005;
+        public static final int audiovisualizer=0x7f040005;
+        public static final int backface=0x7f040006;
         public static final int container=0x7f040000;
-        public static final int donebutton=0x7f040006;
+        public static final int donebutton=0x7f040007;
         public static final int flipbutton=0x7f040004;
         public static final int frontface=0x7f040001;
         public static final int pausebutton=0x7f040003;
