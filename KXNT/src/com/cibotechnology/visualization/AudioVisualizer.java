@@ -1,4 +1,4 @@
-package com.cibotechnology.KXNT;
+package com.cibotechnology.visualization;
 
 import android.content.Context;
 import android.graphics.Canvas;

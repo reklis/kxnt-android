@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cibotechnology.KXNT;
+package com.cibotechnology.audio;
 
 /**
  * Represents something that can react to audio focus events. We implement this instead of just

@@ -1,4 +1,4 @@
-package com.cibotechnology.KXNT;
+package com.cibotechnology.audio;
 
 import android.media.MediaPlayer;
 import android.os.Binder;

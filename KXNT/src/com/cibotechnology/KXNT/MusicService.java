@@ -18,8 +18,6 @@ package com.cibotechnology.KXNT;
 
 import java.io.IOException;
 
-import com.cibotechnology.KXNT.R;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -38,6 +36,13 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.cibotechnology.audio.AudioFocusHelper;
+import com.cibotechnology.audio.MediaBinder;
+import com.cibotechnology.audio.MusicFocusable;
+import com.cibotechnology.audio.MusicRetriever;
+import com.cibotechnology.audio.PlaylistRetriever;
+import com.cibotechnology.audio.PrepareMusicRetrieverTask;
 
 /**
  * Service that handles media playback. This is the Service through which we
@@ -351,17 +356,20 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
             // is State.Playing. But we stay in the Playing state so that we
             // know we have to resume
             // playback once we get the focus back.
-            if (mPlayer.isPlaying())
+            if (mPlayer.isPlaying()) {
                 mPlayer.pause();
+            }
             return;
-        } else if (mAudioFocus == AudioFocus.NoFocusCanDuck)
+        } else if (mAudioFocus == AudioFocus.NoFocusCanDuck) {
             mPlayer.setVolume(DUCK_VOLUME, DUCK_VOLUME); // we'll be relatively
                                                          // quiet
-        else
-            mPlayer.setVolume(1.0f, 1.0f); // we can be loud
+        } else {
+            mPlayer.setVolume(0.9f, 0.9f); // we can be loud
+        }
 
-        if (!mPlayer.isPlaying())
+        if (!mPlayer.isPlaying()) {
             mPlayer.start();
+        }
     }
 
     void processAddRequest(Intent intent) {
@@ -406,6 +414,14 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
 
         try {
             if (manualUrl != null) {
+                if (manualUrl.endsWith(".pls")) {
+                    setUpAsForeground("Loading audio stream...");
+                    manualUrl = extractFirstItemInPlaylist(manualUrl);
+                    if (null == manualUrl) {
+                        setUpAsForeground("Error: Could not parse playlist");
+                        return;
+                    }
+                }
                 // set the source of the media player to a manual URL or path
                 createMediaPlayerIfNeeded();
                 mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -455,6 +471,11 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
             Log.e("MusicService", "IOException playing next song: " + ex.getMessage());
             ex.printStackTrace();
         }
+    }
+
+    private String extractFirstItemInPlaylist(String manualUrl) {
+        PlaylistRetriever pls = new PlaylistRetriever(manualUrl);
+        return pls.getFirstItem(); // might be null
     }
 
     /** Called when media player is done playing current song. */

@@ -36,6 +36,8 @@ import android.widget.Toast;
 
 import com.cibotechnology.animation.CardFlipper;
 import com.cibotechnology.animation.CardFlipperDelegate;
+import com.cibotechnology.audio.MediaBinder;
+import com.cibotechnology.visualization.AudioVisualizer;
 
 /**
  * Main activity: shows media player buttons. This activity shows the media
@@ -49,7 +51,9 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
      * The URL we suggest as default when adding by URL. This is just so that
      * the user doesn't have to find an URL to test this sample.
      */
-    final String STREAM_URL = "http://1331.live.streamtheworld.com:80/KXNTAM_SC";
+    // final String STREAM_URL =
+    // "http://1331.live.streamtheworld.com:80/KXNTAM_SC";
+    final String STREAM_URL = "http://provisioning.streamtheworld.com/pls/KXNTAM.pls";
 
     Button mPlayButton;
     Button mPauseButton;

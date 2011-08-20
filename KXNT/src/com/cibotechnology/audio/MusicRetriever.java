@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cibotechnology.KXNT;
+package com.cibotechnology.audio;
 
 import java.util.ArrayList;
 import java.util.List;

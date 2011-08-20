@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cibotechnology.KXNT;
+package com.cibotechnology.audio;
 
 import android.os.AsyncTask;
 

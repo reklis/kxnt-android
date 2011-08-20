@@ -47,7 +47,7 @@
                 android:text="Button"
                 android:id="@+id/flipbutton" />
         </LinearLayout>
-        <com.cibotechnology.KXNT.AudioVisualizer
+        <com.cibotechnology.visualization.AudioVisualizer
             android:id="@+id/audiovisualizer"
             android:layout_width="200dp"
             android:layout_height="200dp" />

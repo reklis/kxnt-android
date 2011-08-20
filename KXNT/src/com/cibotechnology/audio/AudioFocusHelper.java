@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.cibotechnology.KXNT;
+package com.cibotechnology.audio;
+
+import com.cibotechnology.KXNT.MusicService;
 
 import android.content.Context;
 import android.media.AudioManager;
