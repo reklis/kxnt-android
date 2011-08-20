@@ -75,8 +75,8 @@ public class AudioVisualizer extends View {
             audioLevel /= 256;
             float w = this.getWidth();
             float h = this.getHeight();
-            // canvas.drawRect(0, h - audioLevel, w, h, paint);
-            canvas.drawCircle(w / 2, h / 2, audioLevel, paint);
+            canvas.drawRect(0, h - audioLevel, w, h, paint);
+            // canvas.drawCircle(w / 2, h / 2, audioLevel, paint);
         } else {
             // for (int i = 0; i != 1024; ++i) {
             // canvas.drawLine(i, 0, i, i, paint);

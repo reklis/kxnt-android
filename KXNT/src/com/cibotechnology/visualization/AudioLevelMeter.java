@@ -172,7 +172,6 @@ public class AudioLevelMeter extends DrawingSurface {
         } else {
             drawLights(canvas);
         }
-
     }
 
     private void drawNoLights(Canvas canvas) {
