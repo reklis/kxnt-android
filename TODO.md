@@ -2,8 +2,6 @@ TODO:
 -----
 
 - KXNT:
-  - PLS parsing
-  - Twitter feed
   - Import Artwork
   - Now Playing Scroller
 

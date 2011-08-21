@@ -16,12 +16,24 @@
 
 package com.cibotechnology.KXNT;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.util.Properties;
 
+import twitter4j.AsyncTwitter;
+import twitter4j.AsyncTwitterFactory;
+import twitter4j.ResponseList;
+import twitter4j.Status;
+import twitter4j.TwitterAdapter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterMethod;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +44,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cibotechnology.animation.CardFlipper;
@@ -47,14 +60,6 @@ import com.cibotechnology.visualization.AudioVisualizer;
 public class MainActivity extends Activity implements OnClickListener, CardFlipperDelegate, ServiceConnection {
     private static final String TAG = "com.cibotechnology.KXNT.MainActivity";
 
-    /**
-     * The URL we suggest as default when adding by URL. This is just so that
-     * the user doesn't have to find an URL to test this sample.
-     */
-    // final String STREAM_URL =
-    // "http://1331.live.streamtheworld.com:80/KXNTAM_SC";
-    final String STREAM_URL = "http://provisioning.streamtheworld.com/pls/KXNTAM.pls";
-
     Button mPlayButton;
     Button mPauseButton;
     Button mFlipButton;
@@ -62,8 +67,9 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
     ViewGroup mFrontFace;
     ViewGroup mBackFace;
     ViewGroup mContainer;
-
     AudioVisualizer mAudioVisualizer;
+    Properties mConfig;
+    TextView mNowPlayingBanner;
 
     /**
      * Called when the activity is first created. Here, we simply set the event
@@ -76,22 +82,39 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
             super.onCreate(savedInstanceState);
             setContentView(R.layout.main);
 
-            mContainer = (ViewGroup) findViewById(R.id.container);
-            mFrontFace = (ViewGroup) findViewById(R.id.frontface);
-            mBackFace = (ViewGroup) findViewById(R.id.backface);
-            mPlayButton = (Button) findViewById(R.id.playbutton);
-            mPauseButton = (Button) findViewById(R.id.pausebutton);
-            mFlipButton = (Button) findViewById(R.id.flipbutton);
-            mDoneButton = (Button) findViewById(R.id.donebutton);
-            mAudioVisualizer = (AudioVisualizer) findViewById(R.id.audiovisualizer);
+            wireupUIListeners();
+            readRadioSettings();
+            getLatestTweet();
 
-            mPlayButton.setOnClickListener(this);
-            mPauseButton.setOnClickListener(this);
-            mFlipButton.setOnClickListener(this);
-            mDoneButton.setOnClickListener(this);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void wireupUIListeners() {
+        mContainer = (ViewGroup) findViewById(R.id.container);
+        mFrontFace = (ViewGroup) findViewById(R.id.frontface);
+        mBackFace = (ViewGroup) findViewById(R.id.backface);
+        mPlayButton = (Button) findViewById(R.id.playbutton);
+        mPauseButton = (Button) findViewById(R.id.pausebutton);
+        mFlipButton = (Button) findViewById(R.id.flipbutton);
+        mDoneButton = (Button) findViewById(R.id.donebutton);
+        mNowPlayingBanner = (TextView) findViewById(R.id.nowPlayingBanner);
+        mAudioVisualizer = (AudioVisualizer) findViewById(R.id.audiovisualizer);
+
+        mPlayButton.setOnClickListener(this);
+        mPauseButton.setOnClickListener(this);
+        mFlipButton.setOnClickListener(this);
+        mDoneButton.setOnClickListener(this);
+    }
+
+    private void readRadioSettings() throws IOException {
+        Resources resources = this.getResources();
+        AssetManager assetManager = resources.getAssets();
+        InputStream inputStream = assetManager.open("RadioConfig.properties");
+        mConfig = new Properties();
+        mConfig.load(inputStream);
+        // System.out.println("configuration loaded: " + mConfig);
     }
 
     @Override
@@ -107,15 +130,43 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
         }
     }
 
+    private void getLatestTweet() {
+        AsyncTwitter twitter = AsyncTwitterFactory.getSingleton();
+        twitter.addListener(new TwitterAdapter() {
+            @Override
+            public void onException(TwitterException ex, TwitterMethod method) {
+                ex.printStackTrace();
+            }
+
+            @Override
+            public void gotUserTimeline(ResponseList<Status> statuses) {
+                if ((null != statuses) && (0 != statuses.size())) {
+                    Status s = statuses.get(0);
+                    showLatestTweet(s.getUser().getName(), s.getText());
+                }
+            }
+        });
+        twitter.getUserTimeline(mConfig.getProperty("twitteraccount"));
+    }
+
+    public void showLatestTweet(String name, String text) {
+        mNowPlayingBanner.setText("@" + name + ": " + text);
+    }
+
     private void play() {
         Intent i = new Intent(MusicService.ACTION_URL);
-        Uri uri = Uri.parse(STREAM_URL);
+        Uri uri = Uri.parse(mConfig.getProperty("source"));
         i.setData(uri);
         startService(i);
 
         boolean bound = this.bindService(i, this, BIND_AUTO_CREATE);
         if (!bound) {
             Toast.makeText(getApplicationContext(), "Could not bind to music service", Toast.LENGTH_SHORT).show();
+        } else {
+            if (mNowPlayingBanner.getText().equals("")) {
+                mNowPlayingBanner.setText(mConfig.getProperty("description"));
+            }
+            mNowPlayingBanner.setVisibility(View.VISIBLE);
         }
     }
 

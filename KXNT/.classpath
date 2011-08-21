@@ -3,5 +3,7 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="/Users/stevenfusco/Documents/Projects/Cibo/NohrdenRadio/android/twitter4j-2.2.4/lib/twitter4j-async-2.2.4.jar"/>
+	<classpathentry kind="lib" path="/Users/stevenfusco/Documents/Projects/Cibo/NohrdenRadio/android/twitter4j-2.2.4/lib/twitter4j-core-2.2.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

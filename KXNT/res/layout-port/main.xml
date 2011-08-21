@@ -22,6 +22,14 @@
         android:background="#000040"
         android:weightSum="1"
     >
+        <TextView
+            android:id="@+id/nowPlayingBanner"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:layout_width="wrap_content"
+            android:visibility="invisible"
+        ></TextView>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"

@@ -241,6 +241,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     }
 
     void processPlayRequest() {
+        setUpAsForeground("Starting up...");
         if (mState == State.Retrieving) {
             // If we are still retrieving media, just set the flag to start
             // playing when we're
@@ -398,6 +399,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     }
 
     void tryToGetAudioFocus() {
+        setUpAsForeground("Capturing audio focus...");
         if (mAudioFocus != AudioFocus.Focused && mAudioFocusHelper != null && mAudioFocusHelper.requestFocus())
             mAudioFocus = AudioFocus.Focused;
     }
