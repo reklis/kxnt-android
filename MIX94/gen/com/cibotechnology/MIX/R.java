@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.cibotechnology.KLUC;
+package com.cibotechnology.MIX;
 
 public final class R {
     public static final class attr {

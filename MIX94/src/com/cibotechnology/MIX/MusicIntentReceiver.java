@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cibotechnology.KLUC;
+package com.cibotechnology.MIX;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

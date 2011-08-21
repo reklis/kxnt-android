@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cibotechnology.KLUC;
+package com.cibotechnology.MIX;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,7 +51,7 @@ import com.cibotechnology.visualization.AudioVisualizer;
  * -- everything is done by passing Intents to our {@link MusicService}.
  * */
 public class MainActivity extends Activity implements OnClickListener, ServiceConnection, AudioStreamListener {
-    private static final String TAG = "com.cibotechnology.KLUC.MainActivity";
+    private static final String TAG = "com.cibotechnology.MIX.MainActivity";
 
     Button mPlayButton;
     Button mPauseButton;

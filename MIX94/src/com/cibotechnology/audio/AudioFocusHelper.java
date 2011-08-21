@@ -16,7 +16,7 @@
 
 package com.cibotechnology.audio;
 
-import com.cibotechnology.KLUC.MusicService;
+import com.cibotechnology.MIX.MusicService;
 
 import android.content.Context;
 import android.media.AudioManager;

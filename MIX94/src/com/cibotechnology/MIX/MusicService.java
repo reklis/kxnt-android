@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cibotechnology.KLUC;
+package com.cibotechnology.MIX;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -122,9 +122,9 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     WifiLock mWifiLock;
 
     // The tag we put on debug messages
-    final static String TAG = "KLUC";
-    final static String CONTENT_TITLE = "KLUC";
-    final static String SONG_TITLE = "KLUC 98.5 Las Vegas, NV";
+    final static String TAG = "MIX";
+    final static String CONTENT_TITLE = "MIX";
+    final static String SONG_TITLE = "MIX 94.1 Las Vegas, NV";
 
     // These are the Intent actions that we are prepared to handle. Notice that
     // the fact these
@@ -133,12 +133,12 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     // service can handle are the <action> tags in the <intent-filters> tag for
     // our service in
     // AndroidManifest.xml.
-    public static final String ACTION_PLAY = "com.cibotechnology.KLUC.action.PLAY";
-    public static final String ACTION_PAUSE = "com.cibotechnology.KLUC.action.PAUSE";
-    public static final String ACTION_STOP = "com.cibotechnology.KLUC.action.STOP";
-    public static final String ACTION_SKIP = "com.cibotechnology.KLUC.action.SKIP";
-    public static final String ACTION_REWIND = "com.cibotechnology.KLUC.action.REWIND";
-    public static final String ACTION_URL = "com.cibotechnology.KLUC.action.URL";
+    public static final String ACTION_PLAY = "com.cibotechnology.MIX.action.PLAY";
+    public static final String ACTION_PAUSE = "com.cibotechnology.MIX.action.PAUSE";
+    public static final String ACTION_STOP = "com.cibotechnology.MIX.action.STOP";
+    public static final String ACTION_SKIP = "com.cibotechnology.MIX.action.SKIP";
+    public static final String ACTION_REWIND = "com.cibotechnology.MIX.action.REWIND";
+    public static final String ACTION_URL = "com.cibotechnology.MIX.action.URL";
 
     // The volume we set the media player to when we lose audio focus, but are
     // allowed to reduce
