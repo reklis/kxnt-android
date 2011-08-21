@@ -56,17 +56,19 @@ import com.cibotechnology.visualization.AudioVisualizer;
 public class MainActivity extends Activity implements OnClickListener, CardFlipperDelegate, ServiceConnection, AudioStreamListener {
     private static final String TAG = "com.cibotechnology.KXNT.MainActivity";
 
-    public Button mPlayButton;
-    public Button mPauseButton;
+    Button mPlayButton;
+    Button mPauseButton;
     Button mFlipButton;
     Button mDoneButton;
+    Button mContactButton;
     ViewGroup mFrontFace;
     ViewGroup mBackFace;
     ViewGroup mContainer;
     AudioVisualizer mAudioVisualizer;
-    public Properties mConfig;
-    public ImageView mLoadingImage;
-    public ProgressBar mLoadingIndicator;
+    Properties mConfig;
+    ImageView mLoadingImage;
+    ProgressBar mLoadingIndicator;
+    ImageView mHeadlinerImage;
 
     /**
      * Called when the activity is first created. Here, we simply set the event
@@ -115,14 +117,18 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
         mPauseButton = (Button) findViewById(R.id.pausebutton);
         mFlipButton = (Button) findViewById(R.id.flipbutton);
         mDoneButton = (Button) findViewById(R.id.donebutton);
+        mContactButton = (Button) findViewById(R.id.contactButton);
         mAudioVisualizer = (AudioVisualizer) findViewById(R.id.audiovisualizer);
         mLoadingImage = (ImageView) findViewById(R.id.loadingButton);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.loadingIndicator);
+        mHeadlinerImage = (ImageView) findViewById(R.id.headlinerImage);
 
         mPlayButton.setOnClickListener(this);
         mPauseButton.setOnClickListener(this);
         mFlipButton.setOnClickListener(this);
         mDoneButton.setOnClickListener(this);
+        mContactButton.setOnClickListener(this);
+        mHeadlinerImage.setOnClickListener(this);
     }
 
     private void readRadioSettings() throws IOException {
@@ -144,7 +150,26 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
             handleFlipCommand(true);
         } else if (target == mDoneButton) {
             handleFlipCommand(false);
+        } else if (target == mContactButton) {
+            handleHomepageCommand();
+        } else if (target == mHeadlinerImage) {
+            handleContactHeadlinerCommand();
         }
+    }
+
+    private void handleContactHeadlinerCommand() {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_EMAIL, new String[] { mConfig.getProperty("contact") });
+        i.putExtra(Intent.EXTRA_SUBJECT, mConfig.getProperty("emailsubject"));
+        i.putExtra(Intent.EXTRA_TEXT, "\n\n\nListening from my Android");
+        startActivity(i);
+    }
+
+    private void handleHomepageCommand() {
+        String homepage = mConfig.getProperty("homepage");
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(homepage));
+        startActivity(browserIntent);
     }
 
     private void handlePlayCommand() {
