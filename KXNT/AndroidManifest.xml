@@ -21,7 +21,7 @@
     <application
         android:icon="@drawable/ic_launcher"
         android:label="KXNT"
-        android:debuggable="true"
+        android:debuggable="false"
     >
         <activity
             android:name="com.cibotechnology.KXNT.MainActivity"
