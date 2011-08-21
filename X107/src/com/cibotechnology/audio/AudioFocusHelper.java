@@ -16,7 +16,7 @@
 
 package com.cibotechnology.audio;
 
-import com.cibotechnology.MIX.MusicService;
+import com.cibotechnology.X107.MusicService;
 
 import android.content.Context;
 import android.media.AudioManager;

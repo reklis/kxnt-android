@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cibotechnology.MIX;
+package com.cibotechnology.X107;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -10,7 +10,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:versionCode="1"
     android:versionName="1.0"
-    package="com.cibotechnology.MIX"
+    package="com.cibotechnology.X107"
 >
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-sdk
@@ -20,12 +20,12 @@
         android:name="android.permission.WAKE_LOCK" />
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="MIX"
+        android:label="X107"
         android:debuggable="false"
     >
         <activity
-            android:name="com.cibotechnology.MIX.MainActivity"
-            android:label="MIX"
+            android:name="com.cibotechnology.X107.MainActivity"
+            android:label="X107"
             android:theme="@android:style/Theme.Black.NoTitleBar"
             android:screenOrientation="portrait"
         >
@@ -38,29 +38,29 @@
         </activity>
         <service
             android:exported="false"
-            android:name="com.cibotechnology.MIX.MusicService"
+            android:name="com.cibotechnology.X107.MusicService"
         >
             <intent-filter>
                 <action
-                    android:name="com.cibotechnology.MIX.action.PLAY" />
+                    android:name="com.cibotechnology.X107.action.PLAY" />
                 <action
-                    android:name="com.cibotechnology.MIX.action.PAUSE" />
+                    android:name="com.cibotechnology.X107.action.PAUSE" />
                 <action
-                    android:name="com.cibotechnology.MIX.action.SKIP" />
+                    android:name="com.cibotechnology.X107.action.SKIP" />
                 <action
-                    android:name="com.cibotechnology.MIX.action.REWIND" />
+                    android:name="com.cibotechnology.X107.action.REWIND" />
                 <action
-                    android:name="com.cibotechnology.MIX.action.STOP" />
+                    android:name="com.cibotechnology.X107.action.STOP" />
             </intent-filter>
             <intent-filter>
                 <action
-                    android:name="com.cibotechnology.MIX.action.URL" />
+                    android:name="com.cibotechnology.X107.action.URL" />
                 <data
                     android:scheme="http" />
             </intent-filter>
         </service>
         <receiver
-            android:name="com.cibotechnology.MIX.MusicIntentReceiver"
+            android:name="com.cibotechnology.X107.MusicIntentReceiver"
         >
             <intent-filter>
                 <action
