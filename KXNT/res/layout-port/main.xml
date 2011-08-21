@@ -19,46 +19,105 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="center"
-        android:background="#000040"
         android:weightSum="1"
+        android:background="@drawable/bk"
     >
-        <TextView
-            android:id="@+id/nowPlayingBanner"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text=""
+        <ImageView
+            android:src="@drawable/logo"
+            android:id="@+id/logo"
             android:layout_width="wrap_content"
-            android:visibility="invisible"
-        ></TextView>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_height="100dp" android:layout_weight="0.54"></ImageView>
+        <FrameLayout
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:id="@+id/nowPlayingFrame"
         >
-            <Button
-                android:id="@+id/playbutton"
-                android:background="@drawable/selector_play"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_margin="5dp" />
-            <Button
-                android:id="@+id/pausebutton"
-                android:background="@drawable/selector_pause"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_margin="5dp" />
-            <Button
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/imageView1"
                 android:layout_width="wrap_content"
-                android:text="Button"
-                android:id="@+id/flipbutton" />
-        </LinearLayout>
-        <com.cibotechnology.visualization.AudioVisualizer
-            android:id="@+id/audiovisualizer"
-            android:layout_width="200dp"
-            android:layout_height="200dp" />
+                android:src="@drawable/textslab"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+            ></ImageView>
+            <TextView
+                android:layout_height="wrap_content"
+                android:id="@+id/nowPlayingBanner"
+                android:visibility="visible"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_gravity="center"
+                android:layout_width="192dp"
+            ></TextView>
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:src="@drawable/txtmask"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+            ></ImageView>
+        </FrameLayout>
+        <FrameLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:id="@+id/audioControlsFrame"
+        >
+            <com.cibotechnology.visualization.AudioVisualizer
+                android:id="@+id/audiovisualizer"
+                android:layout_gravity="center"
+                android:layout_height="157dp"
+                android:layout_width="222dp"
+            ></com.cibotechnology.visualization.AudioVisualizer>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:src="@drawable/mask"
+                android:layout_height="wrap_content"
+                android:id="@+id/levelMask"
+                android:layout_gravity="center"
+            ></ImageView>
+            <Button
+                android:layout_gravity="center"
+                android:id="@+id/pausebutton"
+                android:background="@drawable/pause"
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+            ></Button>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:src="@drawable/loading"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/loadingButton"
+            ></ImageView>
+            <ProgressBar
+                android:layout_width="wrap_content"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/loadingIndicator"
+            ></ProgressBar>
+            <Button
+                android:layout_gravity="center"
+                android:id="@+id/playbutton"
+                android:background="@drawable/play"
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+            ></Button>
+        </FrameLayout>
+        <Button
+            android:layout_height="wrap_content"
+            android:id="@+id/flipbutton"
+            android:background="@drawable/scheduleup"
+            android:layout_width="wrap_content"
+        ></Button>
+        <Button
+            android:id="@+id/contactButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/contactup"
+        ></Button>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"

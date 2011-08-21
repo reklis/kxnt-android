@@ -11,25 +11,51 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
-        public static final int ic_stat_playing=0x7f020001;
-        public static final int pause=0x7f020002;
-        public static final int pause_pressed=0x7f020003;
-        public static final int play=0x7f020004;
-        public static final int play_pressed=0x7f020005;
-        public static final int selector_pause=0x7f020006;
-        public static final int selector_play=0x7f020007;
+        public static final int bk=0x7f020000;
+        public static final int contactdown=0x7f020001;
+        public static final int contactup=0x7f020002;
+        public static final int emaildown=0x7f020003;
+        public static final int emailup=0x7f020004;
+        public static final int headliner=0x7f020005;
+        public static final int ic_launcher=0x7f020006;
+        public static final int ic_stat_playing=0x7f020007;
+        public static final int loading=0x7f020008;
+        public static final int logo=0x7f020009;
+        public static final int mask=0x7f02000a;
+        public static final int pause=0x7f02000b;
+        public static final int play=0x7f02000c;
+        public static final int scheduledown=0x7f02000d;
+        public static final int scheduleup=0x7f02000e;
+        public static final int show1=0x7f02000f;
+        public static final int show2=0x7f020010;
+        public static final int show3=0x7f020011;
+        public static final int show4=0x7f020012;
+        public static final int show5=0x7f020013;
+        public static final int show6=0x7f020014;
+        public static final int show7=0x7f020015;
+        public static final int show8=0x7f020016;
+        public static final int textslab=0x7f020017;
+        public static final int txtmask=0x7f020018;
     }
     public static final class id {
-        public static final int audiovisualizer=0x7f040006;
-        public static final int backface=0x7f040007;
+        public static final int audioControlsFrame=0x7f040007;
+        public static final int audiovisualizer=0x7f040008;
+        public static final int backface=0x7f040010;
+        public static final int contactButton=0x7f04000f;
         public static final int container=0x7f040000;
-        public static final int donebutton=0x7f040008;
-        public static final int flipbutton=0x7f040005;
+        public static final int donebutton=0x7f040011;
+        public static final int flipbutton=0x7f04000e;
         public static final int frontface=0x7f040001;
-        public static final int nowPlayingBanner=0x7f040002;
-        public static final int pausebutton=0x7f040004;
-        public static final int playbutton=0x7f040003;
+        public static final int imageView1=0x7f040004;
+        public static final int imageView2=0x7f040006;
+        public static final int levelMask=0x7f040009;
+        public static final int loadingButton=0x7f04000b;
+        public static final int loadingIndicator=0x7f04000c;
+        public static final int logo=0x7f040002;
+        public static final int nowPlayingBanner=0x7f040005;
+        public static final int nowPlayingFrame=0x7f040003;
+        public static final int pausebutton=0x7f04000a;
+        public static final int playbutton=0x7f04000d;
     }
     public static final class layout {
         public static final int main=0x7f030000;

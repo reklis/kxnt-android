@@ -44,11 +44,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cibotechnology.animation.CardFlipper;
 import com.cibotechnology.animation.CardFlipperDelegate;
+import com.cibotechnology.audio.AudioStreamListener;
 import com.cibotechnology.audio.MediaBinder;
 import com.cibotechnology.visualization.AudioVisualizer;
 
@@ -57,7 +60,7 @@ import com.cibotechnology.visualization.AudioVisualizer;
  * player buttons and lets the user click them. No media handling is done here
  * -- everything is done by passing Intents to our {@link MusicService}.
  * */
-public class MainActivity extends Activity implements OnClickListener, CardFlipperDelegate, ServiceConnection {
+public class MainActivity extends Activity implements OnClickListener, CardFlipperDelegate, ServiceConnection, AudioStreamListener {
     private static final String TAG = "com.cibotechnology.KXNT.MainActivity";
 
     Button mPlayButton;
@@ -70,6 +73,8 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
     AudioVisualizer mAudioVisualizer;
     Properties mConfig;
     TextView mNowPlayingBanner;
+    ImageView mLoadingImage;
+    ProgressBar mLoadingIndicator;
 
     /**
      * Called when the activity is first created. Here, we simply set the event
@@ -101,6 +106,8 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
         mDoneButton = (Button) findViewById(R.id.donebutton);
         mNowPlayingBanner = (TextView) findViewById(R.id.nowPlayingBanner);
         mAudioVisualizer = (AudioVisualizer) findViewById(R.id.audiovisualizer);
+        mLoadingImage = (ImageView) findViewById(R.id.loadingButton);
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.loadingIndicator);
 
         mPlayButton.setOnClickListener(this);
         mPauseButton.setOnClickListener(this);
@@ -163,15 +170,18 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
         if (!bound) {
             Toast.makeText(getApplicationContext(), "Could not bind to music service", Toast.LENGTH_SHORT).show();
         } else {
-            if (mNowPlayingBanner.getText().equals("")) {
-                mNowPlayingBanner.setText(mConfig.getProperty("description"));
-            }
+            mPlayButton.setVisibility(View.INVISIBLE);
+
+            mNowPlayingBanner.setText("Loading...");
             mNowPlayingBanner.setVisibility(View.VISIBLE);
+            mLoadingImage.setVisibility(View.VISIBLE);
+            mLoadingIndicator.setVisibility(View.VISIBLE);
         }
     }
 
     private void pause() {
         startService(new Intent(MusicService.ACTION_PAUSE));
+
     }
 
     private void flip(boolean toBackside) {
@@ -217,13 +227,14 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
     public void onServiceConnected(ComponentName name, IBinder service) {
         Log.e(TAG, "onServiceConnected");
 
-        MediaPlayer player = ((MediaBinder) service).getMediaPlayer();
-        startVisualization(player);
+        ((MediaBinder) service).setListener(this);
     }
 
     @Override
     public void onServiceDisconnected(ComponentName name) {
         Log.e(TAG, "onServiceDisconnected");
+
+        stopVisualization();
     }
 
     // Audio Visualization
@@ -242,18 +253,53 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
         }
     }
 
+    MediaPlayer mPlayer = null;
     protected short[] mAudioData = new short[1024];
     protected Handler snoopHandler = new Handler();
     protected final Runnable snoopThread = new Runnable() {
         @Override
         public void run() {
-            snoop(mAudioData, 0);
-            mAudioVisualizer.setAudioData(mAudioData);
-            snoopHandler.postDelayed(this, 1);
+            if (null != mPlayer) {
+                snoop(mAudioData, 0);
+                mAudioVisualizer.setAudioData(mAudioData);
+                snoopHandler.postDelayed(this, 1);
+            }
         }
     };
 
-    public void startVisualization(MediaPlayer player) {
+    public void startVisualization() {
         snoopHandler.postDelayed(snoopThread, 1);
+
+        mLoadingImage.setVisibility(View.INVISIBLE);
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mPlayButton.setVisibility(View.INVISIBLE);
+
+        mNowPlayingBanner.setText(mConfig.getProperty("description"));
+        mNowPlayingBanner.setVisibility(View.VISIBLE);
+        mPauseButton.setVisibility(View.VISIBLE);
+    }
+
+    private void stopVisualization() {
+        mAudioVisualizer.setAudioData(null);
+        mPlayer = null;
+
+        mPauseButton.setVisibility(View.INVISIBLE);
+        mLoadingImage.setVisibility(View.INVISIBLE);
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mNowPlayingBanner.setVisibility(View.INVISIBLE);
+
+        mPlayButton.setVisibility(View.VISIBLE);
+    }
+
+    // AudioStreamListener
+
+    @Override
+    public void OnMediaPlayerChange(MediaPlayer player) {
+        if ((null != player) && (player.isPlaying())) {
+            mPlayer = player;
+            startVisualization();
+        } else {
+            stopVisualization();
+        }
     }
 }

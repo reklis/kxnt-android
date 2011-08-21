@@ -282,6 +282,10 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
             relaxResources(false); // while paused, we always retain the
                                    // MediaPlayer
             giveUpAudioFocus();
+
+            if (null != mMediaBinder) {
+                mMediaBinder.notifyListenerMediaPlayerUpdated();
+            }
         }
     }
 
@@ -495,6 +499,10 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
         mState = State.Playing;
         updateNotification(mSongTitle + " (playing)");
         configAndStartMediaPlayer();
+
+        if (null != mMediaBinder) {
+            mMediaBinder.setMediaPlayer(mPlayer);
+        }
     }
 
     /** Updates the notification. */
@@ -579,9 +587,12 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
         giveUpAudioFocus();
     }
 
+    MediaBinder mMediaBinder = null;
+
     @Override
     public IBinder onBind(Intent intent) {
-        return new MediaBinder(mPlayer);
+        mMediaBinder = new MediaBinder(mPlayer);
+        return mMediaBinder;
     }
 
 }
