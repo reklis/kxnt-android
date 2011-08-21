@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -12,17 +13,8 @@ public class PlaylistRetriever {
 
     /**
      * Parses the PLS file format
-     * 
-     * @param manualUrl
      */
-    public PlaylistRetriever(String manualUrl) {
-        try {
-            setUrl(new URL(manualUrl));
-            fetchAndParse();
-        } catch (Exception e) {
-            setPlaylistItems(null);
-            e.printStackTrace();
-        }
+    public PlaylistRetriever() {
     }
 
     private URL url;
@@ -45,49 +37,60 @@ public class PlaylistRetriever {
         this.playlistItems = playlistItems;
     }
 
-    public void fetchAndParse() throws Exception {
+    public void fetchAndParse(String playlistUrlString) {
         HttpURLConnection urlConnection = null;
         BufferedInputStream is = null;
-        InputStreamReader reader = null;
 
         try {
-            urlConnection = (HttpURLConnection) this.getUrl().openConnection();
-            is = new BufferedInputStream(urlConnection.getInputStream());
-            readStream(is);
-        } finally {
-            if (null != reader) {
-                try {
-                    reader.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            URL playlistUrl = new URL(playlistUrlString);
 
+            if (!playlistUrl.equals(this.getUrl())) {
+                urlConnection = (HttpURLConnection) playlistUrl.openConnection();
+                is = new BufferedInputStream(urlConnection.getInputStream());
+
+                readStream(is);
+
+                this.setUrl(playlistUrl);
+            }
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
             if (null != is) {
                 try {
                     is.close();
-                } catch (Exception e) {
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
 
-            urlConnection.disconnect();
+            if (null != urlConnection) {
+                urlConnection.disconnect();
+            }
         }
     }
 
     public void readStream(BufferedInputStream is) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        ArrayList<String> list = new ArrayList<String>();
-        String line = "";
-        while ((line = reader.readLine()) != null) {
-            String[] kvp = line.split("=");
-            if (2 == kvp.length) {
-                if (kvp[0].startsWith("File")) {
-                    list.add(kvp[1]);
+        try {
+            ArrayList<String> list = new ArrayList<String>();
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                String[] kvp = line.split("=");
+                if (2 == kvp.length) {
+                    if (kvp[0].startsWith("File")) {
+                        list.add(kvp[1]);
+                    }
                 }
             }
+            setPlaylistItems(list);
+        } finally {
+            reader.close();
         }
-        setPlaylistItems(list);
     }
 
     public String getFirstItem() {

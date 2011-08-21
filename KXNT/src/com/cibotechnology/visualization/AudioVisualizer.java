@@ -78,4 +78,5 @@ public class AudioVisualizer extends View {
             canvas.drawRect(0, h - audioLevel, w, h, paint);
         }
     }
+
 }

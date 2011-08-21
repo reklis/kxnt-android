@@ -21,13 +21,6 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.Properties;
 
-import twitter4j.AsyncTwitter;
-import twitter4j.AsyncTwitterFactory;
-import twitter4j.ResponseList;
-import twitter4j.Status;
-import twitter4j.TwitterAdapter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterMethod;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -43,10 +36,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cibotechnology.animation.CardFlipper;
@@ -63,18 +56,17 @@ import com.cibotechnology.visualization.AudioVisualizer;
 public class MainActivity extends Activity implements OnClickListener, CardFlipperDelegate, ServiceConnection, AudioStreamListener {
     private static final String TAG = "com.cibotechnology.KXNT.MainActivity";
 
-    Button mPlayButton;
-    Button mPauseButton;
+    public Button mPlayButton;
+    public Button mPauseButton;
     Button mFlipButton;
     Button mDoneButton;
     ViewGroup mFrontFace;
     ViewGroup mBackFace;
     ViewGroup mContainer;
     AudioVisualizer mAudioVisualizer;
-    Properties mConfig;
-    TextView mNowPlayingBanner;
-    ImageView mLoadingImage;
-    ProgressBar mLoadingIndicator;
+    public Properties mConfig;
+    public ImageView mLoadingImage;
+    public ProgressBar mLoadingIndicator;
 
     /**
      * Called when the activity is first created. Here, we simply set the event
@@ -89,11 +81,30 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
 
             wireupUIListeners();
             readRadioSettings();
-            getLatestTweet();
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        stopVisualization();
+    }
+
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        startVisualization();
+    }
+
+    @Override
+    public void onWindowAttributesChanged(LayoutParams params) {
+        super.onWindowAttributesChanged(params);
+        Log.w(TAG, "onWindowAttributesChanged: " + params);
     }
 
     private void wireupUIListeners() {
@@ -104,7 +115,6 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
         mPauseButton = (Button) findViewById(R.id.pausebutton);
         mFlipButton = (Button) findViewById(R.id.flipbutton);
         mDoneButton = (Button) findViewById(R.id.donebutton);
-        mNowPlayingBanner = (TextView) findViewById(R.id.nowPlayingBanner);
         mAudioVisualizer = (AudioVisualizer) findViewById(R.id.audiovisualizer);
         mLoadingImage = (ImageView) findViewById(R.id.loadingButton);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.loadingIndicator);
@@ -127,40 +137,17 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
     @Override
     public void onClick(View target) {
         if (target == mPlayButton) {
-            play();
+            handlePlayCommand();
         } else if (target == mPauseButton) {
-            pause();
+            handlePauseCommand();
         } else if (target == mFlipButton) {
-            flip(true);
+            handleFlipCommand(true);
         } else if (target == mDoneButton) {
-            flip(false);
+            handleFlipCommand(false);
         }
     }
 
-    private void getLatestTweet() {
-        AsyncTwitter twitter = AsyncTwitterFactory.getSingleton();
-        twitter.addListener(new TwitterAdapter() {
-            @Override
-            public void onException(TwitterException ex, TwitterMethod method) {
-                ex.printStackTrace();
-            }
-
-            @Override
-            public void gotUserTimeline(ResponseList<Status> statuses) {
-                if ((null != statuses) && (0 != statuses.size())) {
-                    Status s = statuses.get(0);
-                    showLatestTweet(s.getUser().getName(), s.getText());
-                }
-            }
-        });
-        twitter.getUserTimeline(mConfig.getProperty("twitteraccount"));
-    }
-
-    public void showLatestTweet(String name, String text) {
-        mNowPlayingBanner.setText("@" + name + ": " + text);
-    }
-
-    private void play() {
+    private void handlePlayCommand() {
         Intent i = new Intent(MusicService.ACTION_URL);
         Uri uri = Uri.parse(mConfig.getProperty("source"));
         i.setData(uri);
@@ -170,21 +157,15 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
         if (!bound) {
             Toast.makeText(getApplicationContext(), "Could not bind to music service", Toast.LENGTH_SHORT).show();
         } else {
-            mPlayButton.setVisibility(View.INVISIBLE);
-
-            mNowPlayingBanner.setText("Loading...");
-            mNowPlayingBanner.setVisibility(View.VISIBLE);
-            mLoadingImage.setVisibility(View.VISIBLE);
-            mLoadingIndicator.setVisibility(View.VISIBLE);
+            this.setUIStateLoading();
         }
     }
 
-    private void pause() {
+    private void handlePauseCommand() {
         startService(new Intent(MusicService.ACTION_PAUSE));
-
     }
 
-    private void flip(boolean toBackside) {
+    private void handleFlipCommand(boolean toBackside) {
         CardFlipper cardFlipper = new CardFlipper();
         cardFlipper.setDelegate(this);
         if (toBackside) {
@@ -192,6 +173,29 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
         } else {
             cardFlipper.flipFromLeftToRight();
         }
+    }
+
+    private void setUIStateLoading() {
+        mPlayButton.setVisibility(View.INVISIBLE);
+
+        mLoadingImage.setVisibility(View.VISIBLE);
+        mLoadingIndicator.setVisibility(View.VISIBLE);
+    }
+
+    private void setUIStatePlaying() {
+        mLoadingImage.setVisibility(View.INVISIBLE);
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mPlayButton.setVisibility(View.INVISIBLE);
+
+        mPauseButton.setVisibility(View.VISIBLE);
+    }
+
+    private void setUIStatePaused() {
+        mPauseButton.setVisibility(View.INVISIBLE);
+        mLoadingImage.setVisibility(View.INVISIBLE);
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+
+        mPlayButton.setVisibility(View.VISIBLE);
     }
 
     // CardFlipperDelegate
@@ -225,14 +229,14 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
 
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
-        Log.e(TAG, "onServiceConnected");
+        // Log.e(TAG, "onServiceConnected");
 
         ((MediaBinder) service).setListener(this);
     }
 
     @Override
     public void onServiceDisconnected(ComponentName name) {
-        Log.e(TAG, "onServiceDisconnected");
+        // Log.e(TAG, "onServiceDisconnected");
 
         stopVisualization();
     }
@@ -253,13 +257,14 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
         }
     }
 
+    boolean mWatchingAudioLevels = false;
     MediaPlayer mPlayer = null;
     protected short[] mAudioData = new short[1024];
-    protected Handler snoopHandler = new Handler();
-    protected final Runnable snoopThread = new Runnable() {
+    public Handler snoopHandler = new Handler();
+    public final Runnable snoopThread = new Runnable() {
         @Override
         public void run() {
-            if (null != mPlayer) {
+            if (mWatchingAudioLevels && (null != mPlayer)) {
                 snoop(mAudioData, 0);
                 mAudioVisualizer.setAudioData(mAudioData);
                 snoopHandler.postDelayed(this, 1);
@@ -268,38 +273,27 @@ public class MainActivity extends Activity implements OnClickListener, CardFlipp
     };
 
     public void startVisualization() {
+        mWatchingAudioLevels = true;
         snoopHandler.postDelayed(snoopThread, 1);
-
-        mLoadingImage.setVisibility(View.INVISIBLE);
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
-        mPlayButton.setVisibility(View.INVISIBLE);
-
-        mNowPlayingBanner.setText(mConfig.getProperty("description"));
-        mNowPlayingBanner.setVisibility(View.VISIBLE);
-        mPauseButton.setVisibility(View.VISIBLE);
     }
 
     private void stopVisualization() {
-        mAudioVisualizer.setAudioData(null);
-        mPlayer = null;
-
-        mPauseButton.setVisibility(View.INVISIBLE);
-        mLoadingImage.setVisibility(View.INVISIBLE);
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
-        mNowPlayingBanner.setVisibility(View.INVISIBLE);
-
-        mPlayButton.setVisibility(View.VISIBLE);
+        mWatchingAudioLevels = false;
+        mAudioVisualizer.setAudioData(null); // clear the back buffer
     }
 
     // AudioStreamListener
 
     @Override
     public void OnMediaPlayerChange(MediaPlayer player) {
+        mPlayer = player;
+
         if ((null != player) && (player.isPlaying())) {
-            mPlayer = player;
             startVisualization();
+            setUIStatePlaying();
         } else {
             stopVisualization();
+            setUIStatePaused();
         }
     }
 }

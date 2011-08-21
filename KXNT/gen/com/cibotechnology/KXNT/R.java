@@ -38,24 +38,20 @@ public final class R {
         public static final int txtmask=0x7f020018;
     }
     public static final class id {
-        public static final int audioControlsFrame=0x7f040007;
-        public static final int audiovisualizer=0x7f040008;
-        public static final int backface=0x7f040010;
-        public static final int contactButton=0x7f04000f;
+        public static final int audioControlsFrame=0x7f040003;
+        public static final int audiovisualizer=0x7f040004;
+        public static final int backface=0x7f04000c;
+        public static final int contactButton=0x7f04000b;
         public static final int container=0x7f040000;
-        public static final int donebutton=0x7f040011;
-        public static final int flipbutton=0x7f04000e;
+        public static final int donebutton=0x7f04000d;
+        public static final int flipbutton=0x7f04000a;
         public static final int frontface=0x7f040001;
-        public static final int imageView1=0x7f040004;
-        public static final int imageView2=0x7f040006;
-        public static final int levelMask=0x7f040009;
-        public static final int loadingButton=0x7f04000b;
-        public static final int loadingIndicator=0x7f04000c;
+        public static final int levelMask=0x7f040005;
+        public static final int loadingButton=0x7f040007;
+        public static final int loadingIndicator=0x7f040008;
         public static final int logo=0x7f040002;
-        public static final int nowPlayingBanner=0x7f040005;
-        public static final int nowPlayingFrame=0x7f040003;
-        public static final int pausebutton=0x7f04000a;
-        public static final int playbutton=0x7f04000d;
+        public static final int pausebutton=0x7f040006;
+        public static final int playbutton=0x7f040009;
     }
     public static final class layout {
         public static final int main=0x7f030000;

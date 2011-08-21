@@ -16,8 +16,6 @@
 
 package com.cibotechnology.KXNT;
 
-import java.io.IOException;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -469,19 +467,22 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
             // on the other hand,
             // we are *not* streaming, we want to release the lock if we were
             // holding it before.
-            if (mIsStreaming)
+            if (mIsStreaming) {
                 mWifiLock.acquire();
-            else if (mWifiLock.isHeld())
+            } else if (mWifiLock.isHeld()) {
                 mWifiLock.release();
-        } catch (IOException ex) {
-            Log.e("MusicService", "IOException playing next song: " + ex.getMessage());
+            }
+        } catch (Exception ex) {
+            Log.e("MusicService", "Exception playing next song: " + ex.getMessage());
             ex.printStackTrace();
         }
     }
 
-    private String extractFirstItemInPlaylist(String manualUrl) {
-        PlaylistRetriever pls = new PlaylistRetriever(manualUrl);
-        return pls.getFirstItem(); // might be null
+    PlaylistRetriever mPlaylist = new PlaylistRetriever();
+
+    private String extractFirstItemInPlaylist(String manualUrl) throws Exception {
+        mPlaylist.fetchAndParse(manualUrl);
+        return mPlaylist.getFirstItem(); // might be null
     }
 
     /** Called when media player is done playing current song. */

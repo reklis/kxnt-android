@@ -30,35 +30,6 @@
         <FrameLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:id="@+id/nowPlayingFrame"
-        >
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="wrap_content"
-                android:src="@drawable/textslab"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-            ></ImageView>
-            <TextView
-                android:layout_height="wrap_content"
-                android:id="@+id/nowPlayingBanner"
-                android:visibility="visible"
-                android:singleLine="true"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_gravity="center"
-                android:layout_width="192dp"
-            ></TextView>
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:src="@drawable/txtmask"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-            ></ImageView>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
             android:layout_gravity="center"
             android:id="@+id/audioControlsFrame"
         >
