@@ -20,13 +20,14 @@
         android:layout_height="fill_parent"
         android:gravity="center"
         android:weightSum="1"
-        android:background="@drawable/bk"
-    >
+        android:background="@drawable/bk" android:visibility="visible">
         <ImageView
             android:src="@drawable/logo"
             android:id="@+id/logo"
             android:layout_width="wrap_content"
-            android:layout_height="100dp" android:layout_weight="0.54"></ImageView>
+            android:layout_height="100dp"
+            android:layout_weight="0.54"
+        ></ImageView>
         <FrameLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -91,18 +92,94 @@
         ></Button>
     </LinearLayout>
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:id="@+id/backface"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="top"
         android:layout_margin="10dp"
-        android:visibility="invisible"
-    >
-        <Button
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Button"
-            android:id="@+id/donebutton" />
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+    android:visibility="invisible">
+        <LinearLayout android:id="@+id/linearLayout2" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_gravity="center">
+            <Button android:layout_width="wrap_content" android:layout_gravity="right" android:layout_height="wrap_content" android:id="@+id/donebutton" android:text="Done"></Button>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView1" android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/radioDescription"></TextView>
+        </LinearLayout>
+        <ScrollView
+            android:id="@+id/scrollView1"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+        >
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+            >
+                <ImageView
+                    android:src="@drawable/headliner"
+                    android:id="@+id/headlinerImage"
+                    android:layout_width="265dp"
+                    android:layout_height="86dp"
+                    android:layout_gravity="center" android:layout_marginBottom="20dip"></ImageView>
+                <ImageView
+                    android:layout_width="180dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/show1"
+                    android:id="@+id/show1Image"
+                    android:layout_gravity="center"
+                ></ImageView>
+                <ImageView
+                    android:layout_width="180dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/show2"
+                    android:id="@+id/show2Image"
+                    android:layout_gravity="center"
+                ></ImageView>
+                <ImageView
+                    android:layout_width="180dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/show3"
+                    android:id="@+id/show3Image"
+                    android:layout_gravity="center"
+                ></ImageView>
+                <ImageView
+                    android:layout_width="180dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/show4"
+                    android:id="@+id/show4Image"
+                    android:layout_gravity="center"
+                ></ImageView>
+                <ImageView
+                    android:layout_width="180dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/show5"
+                    android:id="@+id/show5Image"
+                    android:layout_gravity="center"
+                ></ImageView>
+                <ImageView
+                    android:layout_width="180dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/show6"
+                    android:id="@+id/show6Image"
+                    android:layout_gravity="center"
+                ></ImageView>
+                <ImageView
+                    android:layout_width="180dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/show7"
+                    android:id="@+id/show7Image"
+                    android:layout_gravity="center"
+                ></ImageView>
+                <ImageView
+                    android:layout_width="180dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/show8"
+                    android:id="@+id/show8Image"
+                    android:layout_gravity="center"
+                ></ImageView>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 </FrameLayout>

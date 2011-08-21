@@ -38,22 +38,38 @@ public final class R {
         public static final int txtmask=0x7f020018;
     }
     public static final class id {
-        public static final int audioControlsFrame=0x7f040003;
-        public static final int audiovisualizer=0x7f040004;
-        public static final int backface=0x7f04000c;
-        public static final int contactButton=0x7f04000b;
-        public static final int container=0x7f040000;
-        public static final int donebutton=0x7f04000d;
-        public static final int flipbutton=0x7f04000a;
-        public static final int frontface=0x7f040001;
-        public static final int levelMask=0x7f040005;
-        public static final int loadingButton=0x7f040007;
-        public static final int loadingIndicator=0x7f040008;
-        public static final int logo=0x7f040002;
-        public static final int pausebutton=0x7f040006;
-        public static final int playbutton=0x7f040009;
+        public static final int audioControlsFrame=0x7f050003;
+        public static final int audiovisualizer=0x7f050004;
+        public static final int backface=0x7f05000c;
+        public static final int contactButton=0x7f05000b;
+        public static final int container=0x7f050000;
+        public static final int donebutton=0x7f05000e;
+        public static final int flipbutton=0x7f05000a;
+        public static final int frontface=0x7f050001;
+        public static final int headlinerImage=0x7f050012;
+        public static final int levelMask=0x7f050005;
+        public static final int linearLayout1=0x7f050011;
+        public static final int linearLayout2=0x7f05000d;
+        public static final int loadingButton=0x7f050007;
+        public static final int loadingIndicator=0x7f050008;
+        public static final int logo=0x7f050002;
+        public static final int pausebutton=0x7f050006;
+        public static final int playbutton=0x7f050009;
+        public static final int scrollView1=0x7f050010;
+        public static final int show1Image=0x7f050013;
+        public static final int show2Image=0x7f050014;
+        public static final int show3Image=0x7f050015;
+        public static final int show4Image=0x7f050016;
+        public static final int show5Image=0x7f050017;
+        public static final int show6Image=0x7f050018;
+        public static final int show7Image=0x7f050019;
+        public static final int show8Image=0x7f05001a;
+        public static final int textView1=0x7f05000f;
     }
     public static final class layout {
         public static final int main=0x7f030000;
+    }
+    public static final class string {
+        public static final int radioDescription=0x7f040000;
     }
 }
